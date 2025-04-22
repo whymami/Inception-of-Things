@@ -1,0 +1,32 @@
+Vagrant.require_version ">= 2.4.4" # vagrant versiyonun 2.4.4 veya daha yeni olması gerekiyor (opsiyonel)
+
+BOX = "koalephant/debian12"
+BOX_URL = "https://boxes.storage.koalephant.com/debian12/1.4.0/amd64/virtualbox.box"
+SCONFIG_NAME = "muguveliS"
+WRCONFIG_NAME = "muguveliWR"
+
+Vagrant.configure("2") do |config|
+    config.vm.define "server" do |server|
+        server.vm.hostname = SCONFIG_NAME
+        server.vm.box = BOX
+        server.vm.box_url = BOX_URL
+        server.vm.network "private_network", ip: "192.168.56.110"
+        server.vm.provider "virtualbox" do |vb|
+            vb.name = SCONFIG_NAME
+            vb.cpus = 1
+            vb.memory = "512"
+        end
+    end
+
+    config.vm.define "worker" do |worker|
+        worker.vm.hostname = WRCONFIG_NAME
+        worker.vm.box = BOX
+        worker.vm.box_url = BOX_URL
+        worker.vm.network "private_network", ip: "192.168.56.111"
+        worker.vm.provider "virtualbox" do |vb|
+            vb.name = WRCONFIG_NAME
+            vb.cpus = 1
+            vb.memory = "512"
+        end
+    end
+end
