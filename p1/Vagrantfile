@@ -3,7 +3,7 @@ Vagrant.require_version ">= 2.4.4"
 BOX = "koalephant/debian12"
 BOX_URL = "https://boxes.storage.koalephant.com/debian12/1.4.0/amd64/virtualbox.box"
 SCONFIG_NAME = "muguveliS"
-WRCONFIG_NAME = "muguveliWR"
+WRCONFIG_NAME = "muguveliSW"
 SERVER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
