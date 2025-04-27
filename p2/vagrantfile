@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
         server.vm.network "private_network", ip: SERVER_IP
         server.vm.network "forwarded_port", guest: 6443, host: 6443
         server.vm.network "forwarded_port", guest: 80, host: 8080
-        server.vm.synced_folder "./apps", "/vagrant/apps" , type: "virtualbox"
+        server.vm.synced_folder "./confs", "/vagrant/confs" , type: "virtualbox"
         server.vm.provider "virtualbox" do |vb|
             vb.name = SCONFIG_NAME
             vb.cpus = 1
