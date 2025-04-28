@@ -8,7 +8,7 @@ SERVER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
 Vagrant.configure("2") do |config|
-    config.vm.define "server" do |server|
+    config.vm.define SCONFIG_NAME do |server|
         server.vm.hostname = SCONFIG_NAME
         server.vm.box = BOX
         server.vm.box_url = BOX_URL
@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     end
 
 
-    config.vm.define "worker" do |worker|
+    config.vm.define WRCONFIG_NAME do |worker|
         worker.vm.hostname = WRCONFIG_NAME
         worker.vm.box = BOX
         worker.vm.box_url = BOX_URL
