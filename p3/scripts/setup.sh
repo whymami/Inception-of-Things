@@ -47,7 +47,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl wait --for=condition=ready pod --all -n argocd --timeout=300s
 
 # run argoCD.yaml
-kubectl apply -f /vagrant/confs/argoCD.yaml
+kubectl apply -n argocd -f /vagrant/confs/argoCD.yaml
 
 # argoCD password
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 --decode > password.txt
