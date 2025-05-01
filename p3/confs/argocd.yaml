@@ -1,4 +1,4 @@
-Apiversion : argoproj.io/v1alpha1
+apiVersion : argoproj.io/v1alpha1
 kind : Application
 metadata :
   name : will42-app
@@ -6,11 +6,11 @@ metadata :
 spec :
   destination :
     namespace : dev
-    server : https ://kubernetes.default.svc
+    server : https://kubernetes.default.svc
   project : default
   source :
     path : p3/confs/dev
-    repoURL : https ://github.com/whymami/Inception-of-Things.git
+    repoURL : https://github.com/whymami/Inception-of-Things.git
     targetRevision : HEAD
   syncPolicy :
     automated :
