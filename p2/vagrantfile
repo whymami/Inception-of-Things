@@ -1,24 +1,16 @@
-Vagrant.require_version ">= 2.4.4"
-
-BOX = "koalephant/debian12"
-BOX_URL = "https://boxes.storage.koalephant.com/debian12/1.4.0/amd64/virtualbox.box"
-SCONFIG_NAME = "muguveliS"
-SERVER_IP = "192.168.56.110"
-
 Vagrant.configure("2") do |config|
-    config.vm.define SCONFIG_NAME do |server|
-        server.vm.hostname = SCONFIG_NAME
-        server.vm.box = BOX
-        server.vm.box_url = BOX_URL
-        server.vm.network "private_network", ip: SERVER_IP
-        server.vm.network "forwarded_port", guest: 6443, host: 6443
-        server.vm.network "forwarded_port", guest: 80, host: 8080
-        server.vm.synced_folder "./confs", "/vagrant/confs" , type: "virtualbox"
-        server.vm.provider "virtualbox" do |vb|
-            vb.name = SCONFIG_NAME
-            vb.cpus = 1
-            vb.memory = "512"
-        end
-        server.vm.provision "shell", path: "scripts/setup_server.sh", args: [SERVER_IP]
+    config.vm.define "muguveliS" do |machine|
+      machine.vm.box = "debian/bullseye64"
+      machine.vm.network "private_network", ip: "192.168.56.110"
+      machine.vm.network "forwarded_port", guest: 80, host: 8080
+      machine.vm.hostname = "muguveliS"
+      machine.vm.provider "virtualbox" do |vb|
+        vb.name = "muguveliS"
+        vb.cpus = "1"
+        vb.memory = "1024"
+      end
+  
+      machine.vm.provision "shell", path: "scripts/setup.sh"
+
     end
-end
+  end
