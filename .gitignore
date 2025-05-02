@@ -1,2 +1,5 @@
 .vagrant/
 .config/
+kubectl
+*.sha256
+*.txt
