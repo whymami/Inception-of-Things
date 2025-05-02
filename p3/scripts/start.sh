@@ -55,7 +55,7 @@ echo "${BOLD}${YELLOW}[!] Waiting for 10 seconds...${RESET}"
 
 # Function to try port forwarding for will42 service until it works
 while true; do
-    kubectl port-forward svc/wil42-service -n dev 8888:8888 --address=0.0.0.0 &
+    kubectl port-forward svc/wil42-service -n dev 8888:8888 --address=0.0.0.0 
     if [ $? -eq 0 ]; then
         echo "${BOLD}${GREEN}[!] Port-forwarding successful for wil42-service!${RESET}"
         break  # Exit the loop if port-forwarding was successful
