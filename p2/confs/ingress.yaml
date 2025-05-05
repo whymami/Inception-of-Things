@@ -1,36 +1,40 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: iot-ingress
+  name: ingress-k3s
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: app1.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: app-one
-            port:
-              number: 80
-  - host: app2.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: app-two
-            port:
-              number: 80
-  - host:
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: app-three
-            port:
-              number: 80
+    # app1 domain definition
+    - host: app1.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: app1-nginx-server
+              port:
+                number: 80
+    # app2 domain definition
+    - host: app2.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: app2-nginx-server
+              port: 
+                number: 80
+    # app3 domain definition
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: app3-nginx-server
+              port:
+                number: 80

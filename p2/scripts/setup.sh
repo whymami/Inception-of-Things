@@ -1,30 +1,14 @@
-#!/bin/bash
+# Update packages
+apt-get update -y
+apt-get upgrade -y
 
-sudo apt update
-sudo apt install -y curl
+# Install curl
+apt install curl -y
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--write-kubeconfig-mode=644" sh -
+# Write kubeconfig with this mode.
+export K3S_KUBECONFIG_MODE=644
 
-echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> $HOME/.bashrc
-echo 'export PATH=$PATH:/usr/local/bin' >> $HOME/.bashrc
+export INSTALL_K3S_EXEC="--node-ip=192.168.56.110 --bind-address=192.168.56.110 --advertise-address=192.168.56.110"
 
-source $HOME/.bashrc
-
-
-sudo kubectl apply -f /vagrant/confs/app-one.yaml > /dev/null
-sudo kubectl wait deployment app-one --for condition=Available=True --timeout=-1s > /dev/null && echo "app-one deployed successfully"
-
-sudo kubectl apply -f /vagrant/confs/app-two.yaml > /dev/null
-sudo kubectl wait deployment app-two --for condition=Available=True --timeout=-1s > /dev/null && echo "app-two deployed successfully"
-
-sudo kubectl apply -f /vagrant/confs/app-three.yaml > /dev/null
-sudo kubectl wait deployment app-three --for condition=Available=True --timeout=-1s > /dev/null && echo "app-three deployed successfully"
-
-
-sudo kubectl apply -f /vagrant/confs/ingress.yaml > /dev/null
-while [ -z $external_ip ]; do echo "Waiting ingress...";
-external_ip=$(sudo kubectl get ing iot-ingress --output="jsonpath={.status.loadBalancer.ingress[0].ip}");
-[ -z "$external_ip" ] && sleep 10;
-done;
-
-sudo apt install net-tools -y
+# Set up k3s cluster and join cluster to be Agent or Worker
+curl -sfL https://get.k3s.io | sh -

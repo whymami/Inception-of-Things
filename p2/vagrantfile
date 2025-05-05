@@ -1,16 +1,38 @@
-Vagrant.configure("2") do |config|
-    config.vm.define "muguveliS" do |machine|
-      machine.vm.box = "debian/bullseye64"
-      machine.vm.network "private_network", ip: "192.168.56.110"
-      machine.vm.network "forwarded_port", guest: 80, host: 8080
-      machine.vm.hostname = "muguveliS"
-      machine.vm.provider "virtualbox" do |vb|
-        vb.name = "muguveliS"
-        vb.cpus = "1"
-        vb.memory = "1024"
-      end
-  
-      machine.vm.provision "shell", path: "scripts/setup.sh"
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-    end
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  BOX_NAME = "debian/bookworm64" # Debian 12
+  VM_CPUS = 1
+  VM_RAM = 1024
+
+  # First Machine
+  config.vm.define "ayumusakS" do |server|
+      server.vm.box = BOX_NAME
+      server.vm.hostname = "ayumusakS"
+      server.vm.network "private_network", ip: "192.168.56.110"
+      server.vm.provider "virtualbox" do |settings|
+          settings.memory = VM_RAM
+          settings.name = "ayumusakS"
+          settings.cpus = VM_CPUS
+      end
+      server.vm.provision "shell", path: "./scripts/setup.sh"
+      server.vm.provision "shell", inline: <<-SHELL
+        kubectl apply -f /vagrant/confs/app-one.yaml
+        kubectl apply -f /vagrant/confs/app-two.yaml
+        kubectl apply -f /vagrant/confs/app-three.yaml
+        kubectl apply -f /vagrant/confs/ingress.yaml
+      SHELL
   end
+
+end
