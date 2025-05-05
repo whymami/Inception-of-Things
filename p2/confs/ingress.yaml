@@ -28,7 +28,7 @@ spec:
               name: app2-nginx-server
               port: 
                 number: 80
-    # app3 domain definition
+
     - http:
         paths:
         - path: /
